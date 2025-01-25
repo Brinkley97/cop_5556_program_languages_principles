@@ -2,3 +2,4 @@
 *.zshrc
 *.jar
 __pycache__
+*play/regex_blog_post-master.zip

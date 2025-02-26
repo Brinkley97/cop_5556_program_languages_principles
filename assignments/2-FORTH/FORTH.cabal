@@ -47,9 +47,10 @@ executable FORTH
   -- other-extensions:    
   
   -- Other library packages from which modules are imported.
-  build-depends:       base >=4.10 && <4.11
+  build-depends:       base >=4.10 && <4.22
                       ,flow >=1.0.19
-  
+                      ,hspec >=2.7
+                      ,QuickCheck >=2.10
   -- Directories containing source files.
   -- hs-source-dirs:      
   

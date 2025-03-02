@@ -16,6 +16,37 @@ eval "*" (x:y:tl) = (Real $ toFloat x * toFloat y) : tl
 -- any remaining cases are stacks too short
 eval "*" _ = error("Stack underflow")
 
+-- Addition
+-- if arguments are integers, keep result as integer
+eval "+" (Integer x: Integer y:tl) = Integer (x+y) : tl
+-- if any argument is float, make result a float
+eval "+" (x:y:tl) = (Real $ toFloat x + toFloat y) : tl 
+-- any remaining cases are stacks too short
+eval "+" _ = error("Stack underflow")
+
+-- Subtraction
+-- if arguments are integers, keep result as integer
+eval "-" (Integer x: Integer y:tl) = Integer (y-x) : tl
+-- if any argument is float, make result a float
+eval "-" (x:y:tl) = (Real $ toFloat y - toFloat x) : tl 
+-- any remaining cases are stacks too short
+eval "-" _ = error("Stack underflow")
+
+-- Division
+-- if arguments are integers, keep result as integer
+eval "/" (Integer x: Integer y:tl) = Integer (y`div`x) : tl
+-- if any argument is float, make result a float
+eval "/" (x:y:tl) = (Real $ toFloat y / toFloat x) : tl 
+-- any remaining cases are stacks too short
+eval "/" _ = error("Stack underflow")
+
+-- Power
+-- if arguments are integers, keep result as integer
+eval "^" (Integer x: Integer y:tl) | x >= 0 = Integer (y^x) : tl
+-- if any argument is float or exponent is negative, make result a float
+eval "^" (x:y:tl) = (Real $ toFloat y ** toFloat x) : tl
+-- any remaining cases are stacks too short
+eval "^" _ = error("Stack underflow")
 
 -- Duplicate the element at the top of the stack
 eval "DUP" (x:tl) = (x:x:tl)

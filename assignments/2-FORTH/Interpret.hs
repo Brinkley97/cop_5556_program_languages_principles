@@ -4,6 +4,7 @@ module Interpret where
 import Val
 import Eval
 import Flow
+import Data.Char (isDigit)
 
 -- inner function for foldl
 -- Takes the current stack and an input and 
@@ -20,3 +21,14 @@ interpret text = text |>
     words |> -- brake text into words
     map strToVal |> -- strings to instructions
     foldl evalF ([], "") -- perform evaluation
+
+-- evalCustomInts :: Integer -> Integer -> Integer
+-- evalCustomInts x y = x + y
+
+-- function to interpret a string into a stack and 
+-- an output int
+-- interpretCustomInts :: String -> Integer -> Integer
+-- interpretCustomInts customInt = customInt |>
+--     words |> -- brake text into words
+--     map strToVal |> -- strings to instructions
+--     foldl evalF ([], "") -- perform evaluation

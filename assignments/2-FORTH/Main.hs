@@ -11,18 +11,16 @@ main = do
     contents <- readFile fileName
     putStrLn $ " "
     putStrLn $ "Contents in file: " ++ contents
-    -- putStrLn $ " "
-    let (stack, output) = interpret contents
-    -- let myInts = interpretCustomInts contents
-    -- putStrLn $ "Sum of integers: " ++ show myInts
-    putStrLn $ "    Output: " ++ output
+    putStrLn $ " "
+    let (stack, output) = interpret contents 
+    putStrLn output
 
     -- if the stack is not empty at the end of execution, a message gets printed on the screen saying so and the stack content gets printed.
     -- null is a standard library function that checks if a list is empty
     if null stack
         then
-            putStrLn "The stack is not empty at the end of execution."
+            return ()
         else
-            print stack
-    putStrLn $ " "
+            putStrLn "The stack is not empty at the end of execution."
+
     return ()

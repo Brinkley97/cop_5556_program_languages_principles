@@ -95,19 +95,27 @@ eval s l = Id s : l
 
 -- variant of eval with output
 -- state is a stack and string pair
-evalOut :: String -> ([Val], String) -> ([Val], String)
+-- evalOut :: String -> ([Val], String) -> ([Val], String)
 -- print element at the top of the stack
-evalOut "." (Id x:tl, out) = (tl, out ++ x)
-evalOut "." (Integer i:tl, out) = (tl, out ++ (show i))
-evalOut "." (Real x:tl, out) = (tl, out ++ (show x))
-evalOut "." ([], _) = error "Stack underflow"
+-- evalOut "." (Id x:tl, out) = (tl, out ++ x)
+-- evalOut "." (Integer i:tl, out) = (tl, out ++ (show i))
+-- evalOut "." (Real x:tl, out) = (tl, out ++ (show x))
+-- evalOut "." ([], _) = error "Stack underflow"
 
-evalOut ".EMIT" (Integer x:tl, output) = let 
-    char = intToChar x 
-    updatedOutput = updateStackOut tl char 
-    in updatedOutput
-evalOut op (stack, output) = (eval op stack, output) -- delegate other operations to normal eval
+evalOut :: String -> ([Val], String) -> ([Val], String)
+evalOut "." (stack, output) = case stack of
+    [] -> error "Stack underflow"
+    (Id x:tl) -> (tl, output ++ x)
+    (Integer x:tl) -> let
+        char = intToChar x
+        updatedOutput = output ++ char
+        in if x >= 32 && x <= 126 -- ASCII printable characters range
+           then (tl, updatedOutput)
+           else (tl, output ++ show x)
+    (Real x:tl) -> (tl, output ++ show x)
+evalOut op (stack, out) = (eval op stack, out) -- General operations handled by eval
 
+-- Definitions for eval keep as they were
 
 
 -- this has to be the last case

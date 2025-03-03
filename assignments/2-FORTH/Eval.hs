@@ -50,8 +50,8 @@ eval "^" (x:y:tl) = (Real $ toFloat y ** toFloat x) : tl
 -- any remaining cases are stacks too short
 eval "^" _ = error("Stack underflow")
 
-eval "++" (Id x: Id y:tl) = Id (x++y) : tl -- CONCAT2
-
+eval "++" (Id x: Id y:tl) = Id (y++x) : tl -- CONCAT2
+eval "+++" (Id x: Id y: Id z:tl) = Id (z++y++x) : tl -- CONCAT3
 
 -- Duplicate the element at the top of the stack
 eval "DUP" (x:tl) = (x:x:tl)
@@ -91,5 +91,3 @@ emitUpdateStackOut stack inputChar = (stack, inputChar)
 
 cr :: String
 cr = "\n"
-
-    

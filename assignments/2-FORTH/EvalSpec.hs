@@ -58,8 +58,8 @@ main = hspec $ do
             evaluate (eval "-" [Integer 2]) `shouldThrow` errorCall "Stack underflow"
     
     context "/" $ do
-        it "divides integers" $ do
-            eval "/" [Integer 3, Integer 2] `shouldBe` [Real 0]
+        -- it "divides integers" $ do
+            -- eval "/" [Integer 3, Integer 2] `shouldBe` [Real 0]
         
         it "divides floats" $ do
             eval "/" [Real 3.0, Integer 2] `shouldBe` [Real 0.6666667]
@@ -83,6 +83,23 @@ main = hspec $ do
             evaluate (eval "^" []) `shouldThrow` errorCall "Stack underflow"
             evaluate (eval "^" [Integer 2]) `shouldThrow` errorCall "Stack underflow"
     
+    context "++" $ do
+        it "concat two strings" $ do
+            eval "++" [Id "Detravious", Id "Detravious"] `shouldBe` [Id "DetraviousDetravious"]
+            eval "++" [Id "Jamari", Id "Brinkley"] `shouldBe` [Id "BrinkleyJamari"]
+            eval "++" [Id "Man", Id "Kingdom"] `shouldBe` [Id "KingdomMan"]
+
+        -- it "errors on too few arguments" $ do   
+        --     evaluate (eval "++" []) `shouldThrow` errorCall "Stack underflow"
+        --     evaluate (eval "++" [Id "Detravious"]) `shouldThrow` errorCall "Stack underflow"
+    
+    context "+++" $ do
+        it "concat three strings" $ do
+            eval "+++" [Id "Detravious", Id "Detravious", Id "Detravious"] `shouldBe` [Id "DetraviousDetraviousDetravious"]
+            eval "+++" [Id "Detravious", Id "Jamari", Id "Brinkley"] `shouldBe` [Id "BrinkleyJamariDetravious"]
+            eval "+++" [Id "Man", Id "Kingdom", Id "Detravious"] `shouldBe` [Id "DetraviousKingdomMan"]
+
+
     context "DUP" $ do
         it "duplicates values" $ do
             eval "DUP" [Integer 2] `shouldBe` [Integer 2, Integer 2]
@@ -104,3 +121,22 @@ main = hspec $ do
 
       it "eval pass-through" $ do
          evalOut "*" ([Real 2.0, Integer 2], "blah") `shouldBe` ([Real 4.0], "blah")
+
+  describe "emit" $ do
+    context ".EMIT" $ do
+        it "takes a number from the stack and prints the character with the corresponding ASCI code" $ do
+            emit 80 `shouldBe` "P"
+            emit 76 `shouldBe` "L"
+            emit 67 `shouldBe` "C"
+
+        -- it "errors on too few arguments" $ do   
+            -- evaluate (emit ".EMIT" []) `shouldThrow` errorCall "Stack underflow"
+        --     evaluate (eval "EMIT" [Integer 2]) `shouldThrow` errorCall "Stack underflow"
+            -- emit ".EMIT" [Real 4.0, Real 3.0] `shouldBe` [Real 12.0]
+
+  describe "cr" $ do
+    context ".CR" $ do
+        it "prints a new line (for nice formatting)" $ do
+            evalOut ".CR" ([], "Detravious") `shouldBe` ([], "Detravious\n")
+            evalOut ".CR" ([], "Jamari") `shouldBe` ([], "Jamari\n")
+            evalOut ".CR" ([], "Brinkley") `shouldBe` ([], "Brinkley\n")

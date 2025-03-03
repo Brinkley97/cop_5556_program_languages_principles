@@ -5,20 +5,6 @@ import Val
 
 import Data.Char (chr)
 
-
--- Helper functions
-extractInteger :: [Val] -> Int
-extractInteger (Integer x:_) = x
-extractInteger _ = error "Expected an integer value on top of stack"
-
--- Convert integer to ASCII character string representation
-intToChar :: Int -> String
-intToChar = (:[]) . chr
-
--- Update stack and concatenated output with ASCII character
-updateStackOut :: [Val] -> String -> ([Val], String)
-updateStackOut stack newChar = (stack, newChar)
-
 -- main evaluation function for operators and 
 -- built-in FORTH functions with no output
 -- takes a string and a stack and returns the stack
@@ -64,26 +50,8 @@ eval "^" (x:y:tl) = (Real $ toFloat y ** toFloat x) : tl
 -- any remaining cases are stacks too short
 eval "^" _ = error("Stack underflow")
 
--- Emit function to convert Int to Char
--- emit :: Int -> String
--- emit n = [chr n]
+eval "++" (Id x: Id y:tl) = Id (x++y) : tl -- CONCAT2
 
--- -- Function to update the stack and string tuple
--- updateStackStringTuple :: [Val] -> String -> ([Val], String)
--- updateStackStringTuple stack str = (stack, str)
-
--- -- Function to filter Integer values from the stack
--- filtIntFromStack :: [Val] -> [Int]
--- filtIntFromStack [] = []
--- filtIntFromStack (Integer i : tl) = i : filtIntFromStack tl
--- filtIntFromStack (_ : tl) = filtIntFromStack tl
-
--- -- Emit operation
--- eval "EMIT" stack =
---     let filtInt = filtIntFromStack stack
---         emitChar = concatMap emit filtInt
---         (newStack, _) = updateStackStringTuple stack emitChar
---     in newStack
 
 -- Duplicate the element at the top of the stack
 eval "DUP" (x:tl) = (x:x:tl)
@@ -103,13 +71,25 @@ evalOut "." (Real x:tl, out) = (tl, out ++ (show x))
 evalOut "." ([], _) = error "Stack underflow"
 
 evalOut ".EMIT" (Integer x:tl, output) = let 
-    char = intToChar x 
-    updatedOutput = updateStackOut tl char 
+    char = emit x
+    updatedOutput = emitUpdateStackOut tl char 
     in updatedOutput
-evalOut op (stack, output) = (eval op stack, output) -- delegate other operations to normal eval
 
-
+evalOut ".CR" (stack, output) = (stack, output ++ cr)
 
 -- this has to be the last case
 -- if no special case, ask eval to deal with it and propagate output
--- evalOut op (stack, out) = (eval op stack, out)
+evalOut op (stack, out) = (eval op stack, out)
+
+-- Convert integer to ASCII character string representation
+emit :: Int -> String
+emit = (:[]) . chr
+
+-- Update stack and concatenated output with ASCII character
+emitUpdateStackOut :: [Val] -> String -> ([Val], String)
+emitUpdateStackOut stack inputChar = (stack, inputChar)
+
+cr :: String
+cr = "\n"
+
+    

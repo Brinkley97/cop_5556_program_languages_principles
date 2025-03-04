@@ -1,7 +1,7 @@
 
 # Assignment 2
 
-In this assignment, I implement various function in the functional programming type called  `Haskell` while integrating the workflows around `cabal`, the package/builder manager. Test cases are written in a stack-oriented procdural language called `FORTH (.4TH)`.
+In this assignment, I implement various function in the functional programming type called  `Haskell` while integrating the workflows around `cabal`, the package/builder manager. Test cases are written in a procedural language called `FORTH (.4TH)`.
 
 See [Requirements.md](https://github.com/Brinkley97/cop_5556_program_languages_principles/blob/main/assignments/2-FORTH/Requirements.md) to get a sense of what was expected.
 

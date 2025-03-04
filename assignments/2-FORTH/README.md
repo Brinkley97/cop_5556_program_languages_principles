@@ -18,14 +18,13 @@ cabal install hbase >=4.10 && <4.22
 cabal install flow --lib >=1.0.19
 cabal install hspec --lib >=2.7
 cabal install quickcheck --lib >=2.10
-
 ```
 
 You should see changes in your `FORTH.cabal` and if so, run `cabal build`.
 
 ## TODOs
 
-1. If the stack is not empty at the end of execution, print message on the screen saying so and the stack content gets printed in `Main.hs`. See `t11.4TH`.
+1. If the stack is not empty at the end of execution, print message on the screen saying so and the stack content gets printed in `Main.hs`. See `t11.4TH` and `t11.out`.
 
 2. Adding functions to `Eval.hs` and writing unit tests for them in `EvalSpec.hs`. The screenshot below shows a completion of features, what they should do, associated test file `(test/t*.4TH)` with the test case, terminal command `cabal run FORTH test/t*.4TH`, associated out file `(out/t*.out)` that contains the correct solution to that test case, and and if passes the unit testing. 
    ![Screenshot 2025-03-03 at 21 44 34](https://github.com/user-attachments/assets/47ab92b5-e399-4fa8-8ef6-2e773339105e)

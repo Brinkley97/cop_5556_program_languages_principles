@@ -47,7 +47,8 @@ You should see changes in your `FORTH.cabal` and if so, run `cabal build`.
 4. Requirement of “converts the argument into a string (needs to work for all types)” is unclear. Are you saying all types in the base code (which I my assumption) or all types in Haskell?
 5. In `EvalSpec.hs` when testing `CONCAT2` and `CONCAT3`, be sure to *(Un)Comment to test*.
 6. Requirements stated to run `runhaskell ValSpec.hs` and `runhaskell ValSpec.hs`, but didn't mention anything about writing code there, so I either keeping same as base code or adding what I need.
-7. For “if the stack is not empty at the end of execution,  a message gets printed on the screen saying so and the stack content gets printed”, there is no unit test requirement, so I didn’t write one. 
+7. For “if the stack is not empty at the end of execution,  a message gets printed on the screen saying so and the stack content gets printed”, there is no unit test requirement, so I didn’t write one.
+8. The base code lack clear meanings of each file, so see comments in each file to make best of code.
 
 ## Self-exploratory resources I found beneficial
 

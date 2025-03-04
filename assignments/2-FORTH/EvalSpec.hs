@@ -88,17 +88,22 @@ main = hspec $ do
             eval "++" [Id "Detravious", Id "Detravious"] `shouldBe` [Id "DetraviousDetravious"]
             eval "++" [Id "Jamari", Id "Brinkley"] `shouldBe` [Id "BrinkleyJamari"]
             eval "++" [Id "Man", Id "Kingdom"] `shouldBe` [Id "KingdomMan"]
-
-        -- it "errors on too few arguments" $ do   
-        --     evaluate (eval "++" []) `shouldThrow` errorCall "Stack underflow"
-        --     evaluate (eval "++" [Id "Detravious"]) `shouldThrow` errorCall "Stack underflow"
+        
+        -- (Un)Comment to test
+        -- it "errors if not string" $ do   
+            -- evaluate (eval "++" [Id "Detravious"]) `shouldThrow` errorCall "Stack underflow"
+            -- evaluate (eval "++" []) `shouldThrow` errorCall "Stack underflow"
     
     context "+++" $ do
         it "concat three strings" $ do
             eval "+++" [Id "Detravious", Id "Detravious", Id "Detravious"] `shouldBe` [Id "DetraviousDetraviousDetravious"]
             eval "+++" [Id "Detravious", Id "Jamari", Id "Brinkley"] `shouldBe` [Id "BrinkleyJamariDetravious"]
             eval "+++" [Id "Man", Id "Kingdom", Id "Detravious"] `shouldBe` [Id "DetraviousKingdomMan"]
-
+        
+        -- (Un)Comment to test
+        -- it "errors if not string" $ do   
+        --     evaluate (eval "+++" [Id "Detravious"]) `shouldThrow` errorCall "Stack underflow"
+        --     evaluate (eval "+++" []) `shouldThrow` errorCall "Stack underflow"
 
     context "DUP" $ do
         it "duplicates values" $ do
@@ -140,3 +145,12 @@ main = hspec $ do
             evalOut ".CR" ([], "Detravious") `shouldBe` ([], "Detravious\n")
             evalOut ".CR" ([], "Jamari") `shouldBe` ([], "Jamari\n")
             evalOut ".CR" ([], "Brinkley") `shouldBe` ([], "Brinkley\n")
+
+  describe "str" $ do
+    context ".STR" $ do
+        it "converts values to strings" $ do
+            strOut (Integer 70) `shouldBe` "70"
+            strOut (Real 75.0) `shouldBe` "75.0"
+            strOut (Real 75.0) `shouldBe` "75.0"
+            -- Integer 76 `shouldBe` "76"
+            -- Integer 67 `shouldBe` "67"

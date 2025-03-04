@@ -35,8 +35,8 @@ eval "-" (x:y:tl) = (Real $ toFloat y - toFloat x) : tl
 eval "-" _ = error("Stack underflow")
 
 -- Division
--- if arguments are integers, keep result as integer
-eval "/" (Integer x: Integer y:tl) = Integer (y`div`x) : tl
+-- if arguments are integers, make result as real/float
+eval "/" (Integer x: Integer y:tl) = Real (toFloat (Integer y) / toFloat (Integer x)) : tl
 -- if any argument is float, make result a float
 eval "/" (x:y:tl) = (Real $ toFloat y / toFloat x) : tl 
 -- any remaining cases are stacks too short
@@ -70,12 +70,21 @@ evalOut "." (Integer i:tl, out) = (tl, out ++ (show i))
 evalOut "." (Real x:tl, out) = (tl, out ++ (show x))
 evalOut "." ([], _) = error "Stack underflow"
 
-evalOut ".EMIT" (Integer x:tl, output) = let 
-    char = emit x
-    updatedOutput = emitUpdateStackOut tl char 
-    in updatedOutput
+-- evalOut ".EMIT" (Integer x:tl, output) = let 
+--     char = emit x
+--     updatedOutput = emitUpdateStackOut tl char 
+--     in updatedOutput
+
+evalOut op (Integer x:tl, output)
+    | op == ".EMIT" = let 
+        char = emit x
+        updatedOutput = emitUpdateStackOut tl (output ++ char)
+        in updatedOutput
+    | op == ".STR" = (tl, "\"" ++ output ++ strOut (Integer x) ++ "\"")
 
 evalOut ".CR" (stack, output) = (stack, output ++ cr)
+
+-- evalOut ".STR" (Integer x:stack, output) = (stack, output ++ "\"" ++ show x ++ "\"")
 
 -- this has to be the last case
 -- if no special case, ask eval to deal with it and propagate output
@@ -91,3 +100,9 @@ emitUpdateStackOut stack inputChar = (stack, inputChar)
 
 cr :: String
 cr = "\n"
+
+-- Convert argumnet to String
+strOut :: Val -> String
+-- strOut (Integer x) = "\"" ++ show x ++ "\""
+strOut (Integer x) = show x
+strOut (Real x) = show x

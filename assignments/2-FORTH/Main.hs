@@ -9,9 +9,9 @@ main :: IO ()
 main = do
     (fileName:tl) <- getArgs
     contents <- readFile fileName
-    putStrLn $ " "
-    putStrLn $ "Contents in file: " ++ contents
-    putStrLn $ " "
+    -- putStrLn $ " "
+    -- putStrLn $ "Contents in file: " ++ contents
+    -- putStrLn $ " "
     let (stack, output) = interpret contents 
     putStrLn output
 
@@ -21,6 +21,6 @@ main = do
         then
             return ()
         else
-            putStrLn "The stack is not empty at the end of execution."
+            putStrLn "The stack is not empty at the end of execution. It has elements: " >> print stack
 
     return ()

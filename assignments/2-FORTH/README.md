@@ -1,11 +1,11 @@
-
 # Assignment 2
 
 In this assignment, I implement various function in the functional programming type called  `Haskell` while integrating the workflows around `cabal`, the package/builder manager. Test cases are written in a procedural language called `FORTH (.4TH)`.
 
 See [Requirements.md](https://github.com/Brinkley97/cop_5556_program_languages_principles/blob/main/assignments/2-FORTH/Requirements.md) to get a sense of what was expected.
 
-Download `Haskell` : https://www.haskell.org/downloads/
+Download `Haskell` : https://www.haskell.org/ghcup/
+   - `curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh`
 
 How to use `cabal`: https://www.haskell.org/cabal/users-guide/developing-packages.html
 
@@ -27,8 +27,7 @@ You should see changes in your `FORTH.cabal` and if so, run `cabal build`.
 1. If the stack is not empty at the end of execution, print message on the screen saying so and the stack content gets printed in `Main.hs`. See `t11.4TH` and `t11.out`.
 
 2. Adding functions to `Eval.hs` and writing unit tests for them in `EvalSpec.hs`. The screenshot below shows a completion of features, what they should do, associated test file `(test/t*.4TH)` with the test case, terminal command `cabal run FORTH test/t*.4TH`, associated out file `(out/t*.out)` that contains the correct solution to that test case, and and if passes the unit testing. 
-   ![Screenshot 2025-03-03 at 21 44 34](https://github.com/user-attachments/assets/47ab92b5-e399-4fa8-8ef6-2e773339105e)
-
+   ![Screenshot 2025-03-03 at 22 36 56](https://github.com/user-attachments/assets/709d5870-57fd-414c-ae8b-abe37cf711f4)
 
 3. Running the test case 1 with unit test. Be sure to swap 1. Reference table for test case you're interested in.
    ```
@@ -49,6 +48,7 @@ You should see changes in your `FORTH.cabal` and if so, run `cabal build`.
 7. For “if the stack is not empty at the end of execution,  a message gets printed on the screen saying so and the stack content gets printed”, there is no unit test requirement, so I didn’t write one.
 8. The base code lack clear meanings of each file, so see comments in each file to make best of code.
 9. The table may differ from code due to last minute changes and needing to submit in time.
+10. TAs should have installation already. If anything, update the `FORTH (.4TH)` with my versions and all code will run.
 
 ## Self-exploratory resources I found beneficial
 

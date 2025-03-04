@@ -14,10 +14,11 @@ How to use `cabal`: https://www.haskell.org/cabal/users-guide/developing-package
 Make sure you are inside the FORTH directory and beware of other installation issues that I'm not documenting (do to how many there were).
 ```
 cabal install
-cabal install hbase
-cabal install hspec --lib
-cabal install quickcheck --lib
-cabal install flow --lib
+cabal install hbase >=4.10 && <4.22
+cabal install flow --lib >=1.0.19
+cabal install hspec --lib >=2.7
+cabal install quickcheck --lib >=2.10
+
 ```
 
 ## Running the unit tests

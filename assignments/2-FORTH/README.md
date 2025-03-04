@@ -48,6 +48,7 @@ You should see changes in your `FORTH.cabal` and if so, run `cabal build`.
 6. Requirements stated to run `runhaskell ValSpec.hs` and `runhaskell ValSpec.hs`, but didn't mention anything about writing code there, so I either keeping same as base code or adding what I need.
 7. For “if the stack is not empty at the end of execution,  a message gets printed on the screen saying so and the stack content gets printed”, there is no unit test requirement, so I didn’t write one.
 8. The base code lack clear meanings of each file, so see comments in each file to make best of code.
+9. The table may differ from code due to last minute changes and needing to submit in time.
 
 ## Self-exploratory resources I found beneficial
 

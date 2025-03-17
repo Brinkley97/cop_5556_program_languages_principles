@@ -14,10 +14,83 @@ test(typeExp_iplus) :-
 
 % this test should fail
 test(typeExp_iplus_F, [fail]) :-
+
     typeExp(iplus(int, int), float).
 
 test(typeExp_iplus_T, [true(T == int)]) :-
     typeExp(iplus(int, int), T).
+
+/* My test cases:
+1. minus
+2. times
+3. divide
+4. less than
+5. greater than
+6. equals
+*/
+% 1. times
+test(typeExp_iminus) :-
+	typeExp(itimes(int,int), int).
+	
+% this test should fail
+test(typeExp_iminus_F, [fail]) :-
+    typeExp(iminus(int, int), float).
+
+test(typeExp_iminus_T, [true(T == int)]) :-
+    typeExp(iminus(int, int), T).
+
+% 2. times
+test(typeExp_itimes) :-
+	typeExp(itimes(int,int), int).
+	
+% this test should fail
+test(typeExp_itimes_F, [fail]) :-
+    typeExp(itimes(int, int), float).
+
+test(typeExp_itimes_T, [true(T == int)]) :-
+    typeExp(itimes(int, int), T).
+
+% 4. less than
+test(typeExp_ilessthan) :-
+	typeExp(ilessthan(int,int), bool).
+	
+% this test should fail
+test(typeExp_ilessthan_F, [fail]) :-
+    typeExp(ilessthan(int, int), float).
+
+test(typeExp_ilessthan_T, [true(T == bool)]) :-
+    typeExp(ilessthan(int, int), T).
+
+% 5. greater than
+test(typeExp_igreaterthan) :-
+	typeExp(igreaterthan(int,int), bool).
+	
+% this test should fail
+test(typeExp_igreaterthan_F, [fail]) :-
+    typeExp(igreaterthan(int, int), float).
+
+test(typeExp_igreaterthan_T, [true(T == bool)]) :-
+    typeExp(igreaterthan(int, int), T).
+
+% 6. equals
+test(typeExp_iequals) :-
+	typeExp(iequals(int,int), bool).
+	
+% this test should fail
+test(typeExp_iequals_F, [fail]) :-
+    typeExp(iequals(int, int), float).
+
+test(typeExp_iequals_T, [true(T == bool)]) :-
+    typeExp(iequals(int, int), T).
+    
+/* End of my test cases:
+1. minus
+2. times
+3. divide
+4. less than
+5. greater than
+6. equals
+*/
 
 % NOTE: use nondet as option to test if the test is nondeterministic
 

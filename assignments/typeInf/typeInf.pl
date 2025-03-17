@@ -91,6 +91,13 @@ fType(fToInt, [float,int]).
 fType(iToFloat, [int,float]).
 fType(print, [_X, unit]). /* simple print */
 
+% My fType definitions
+fType(iminus, [int, int, int]).
+fType(itimes, [int, int, int]).
+fType(ilessthan, [int, int, bool]).
+fType(igreaterthan, [int, int, bool]).
+fType(iequals, [int, int, bool]).
+
 /* Find function signature
    A function is either buld in using fType or
    added as a user definition with gvar(fct, List)
@@ -107,3 +114,5 @@ functionType(Name, Args) :-
 
 % This gets wiped out but we have it here to make the linter happy
 gvar(_, _) :- false().
+
+:- dynamic gvar/2.

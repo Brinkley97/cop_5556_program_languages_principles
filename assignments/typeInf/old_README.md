@@ -26,21 +26,27 @@ a more complete coverage of OCAml type inference. Specifically:
 
 1. Add more basic functions to provide interesting code (fType predicate)
 2. Add more statement types. At a minimum you need to cover:
-    a. global variables with expression initialization  (e.g. let x = 3)
-    b. global function definitions (let add x y = x+y)
-        last expression is an implicit return. return statement also possible
-    c. expression computation (as a statement)
-    d. if statements
-    e. "let in" statement for local variables
-    f. for statements
-    g. code blocks (separated by ;)
-3. Write tests for all predicates especially infer (at least 20 cases).
+   
+   a. global variables with expression initialization  (e.g. let x = 3)
 
-You need to find your own representation of OCaml code to implement the 
-above and to write your tests accordingly. Keep in mind that only type inference 
-mattes so any constants in the corresponding OCaml code become basic 
-types. For example "let v = 3" gets translated as "gvLet(v, T, int)" since 
-3->int and we do not care about values, only types. 
+   b. global function definitions (let add x y = x+y)
+        last expression is an implicit return. return statement also possible
+
+   c. expression computation (as a statement)
+
+   d. if statements
+
+   e. "let in" statement for local variables
+
+   f. for statements
+
+   g. code blocks (separated by ;)
+   
+4. Write tests for all predicates especially infer (at least 20 cases).
+
+You need to find your own representation of OCaml code to implement the above and to write your tests accordingly. 
+
+Keep in mind that only type inference mattes so any constants in the corresponding OCaml code become basic types. For example "let v = 3" gets translated as "gvLet(v, T, int)" since  3->int and we do not care about values, only types.
 
 Running the code
 ================

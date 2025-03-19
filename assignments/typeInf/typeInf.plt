@@ -128,6 +128,14 @@ test(typeStatement_gvLet_float, [nondet, true(T == float)]) :- % should succeed 
     assertion(T == float), % set the type T to be a float
     gvar(v, float). % make sure the global variable is defined
 
+% 3. gfLet(add, [X, Y], iplus(X, Y), int) -> let add x y = x + y;
+test(typeStatement_gfunc, [nondet, true(T == int)]) :-
+    deleteGVars(),  % Ensure a clean state before testing
+    typeStatement(gfLet(add, [X, Y], iplus(X, Y)), T), % Use typeStatement/2
+    assertion(T == int),  % Ensure return type is int
+    assertion(X == int), assertion(Y == int), % Ensure parameters are int
+    gvar(add, [int, int, int]). % Check that function is stored correctly
+
 /* End of my test cases for typeStatements():
 1. gvLet(v, T, int) ~ let v = 3; 3 is an int
 2. gvLet(v, T, float) ~ let v = 3.4 is a float

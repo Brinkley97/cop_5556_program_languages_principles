@@ -14,6 +14,12 @@ typeExp(Fct, T):-
 /* propagate types */
 typeExp(T, T).
 
+
+/*typeExp(return(Expression), T) :-
+    typeExp(Expression, T).
+
+*/
+
 /* list version to allow function mathine */
 typeExpList([], []).
 typeExpList([Hin|Tin], [Hout|Tout]):-
@@ -42,6 +48,21 @@ typeStatement(gfLet(Name, Params, Code), T):-
     bType(T),  /* make sure we have an inferred type */
     append(ParamTypes, [T], FType), /* type for a function ...args, return type */
     asserta(gvar(Name, FType)). /* add definition to database */
+
+/*
+typeStatement(gfLet(Name, Params, Code), T):-
+    atom(Name),
+    is_list(Params),
+    maplist(typeExp, Params, ParamTypes),
+    (   is_list(Code)
+    ->  typeCode(Code, T)
+    ;   typeExp(Code, T)
+    ),
+    bType(T),
+    append(ParamTypes, [T], FType),
+    asserta(gvar(Name, FType)).
+
+*/
 
 /* Code is simply a list of statements. The type is 
     the type of the last statement 

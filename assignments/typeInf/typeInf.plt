@@ -14,7 +14,6 @@ test(typeExp_iplus) :-
 
 % this test should fail
 test(typeExp_iplus_F, [fail]) :-
-
     typeExp(iplus(int, int), float).
 
 test(typeExp_iplus_T, [true(T == int)]) :-
@@ -101,6 +100,40 @@ test(typeStatement_gvar, [nondet, true(T == int)]) :- % should succeed with T=in
     assertion(X == int), assertion( Y == int), % make sure the types are int
     gvar(v, int). % make sure the global variable is defined
 
+test(typeStatement_gfLet, [nondet, true(T == int)]) :-
+    deleteGVars(), /* clean up variables */
+    typeStatement(gfLet(add, [X, Y], iplus(X, Y)), T),
+    assertion(X == int), assertion(Y == int), % make sure the types are int
+    gvar(add, [int, int, int]). % make sure the global function is defined
+
+
+/* My test cases for typeStatements():
+1. gvLet(v, T, int) ~ let v = 3; 3 is an int
+2. gvLet(v, T, float) ~ let v = 3.4 is a float
+3. gfLet(add, [X, Y], iplus(X, Y), int) -> let add x y = x + y;
+
+*/
+
+% 1. test for statement let v = 3;
+test(typeStatement_gvLet_int, [nondet, true(T == int)]) :- % should succeed with T=int
+    deleteGVars(), /* clean up variables */
+    typeStatement(gvLet(v, T, int), unit),
+    assertion(T == int), % set the type T to be an int
+    gvar(v, int). % make sure the global variable is defined
+
+% 2. test for statement let v = 3.4;
+test(typeStatement_gvLet_float, [nondet, true(T == float)]) :- % should succeed with T=int
+    deleteGVars(), /* clean up variables */
+    typeStatement(gvLet(v, T, float), unit),
+    assertion(T == float), % set the type T to be a float
+    gvar(v, float). % make sure the global variable is defined
+
+/* End of my test cases for typeStatements():
+1. gvLet(v, T, int) ~ let v = 3; 3 is an int
+2. gvLet(v, T, float) ~ let v = 3.4 is a float
+3. gfLet(add, [X, Y], iplus(X, Y), int) -> let add x y = x + y;
+
+*/
 % same test as above but with infer 
 test(infer_gvar, [nondet]) :-
     infer([gvLet(v, T, iplus(X, Y))], unit),

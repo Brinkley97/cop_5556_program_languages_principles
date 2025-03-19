@@ -31,6 +31,18 @@ typeStatement(gvLet(Name, T, Code), unit):-
     bType(T), /* make sure we have an infered type */
     asserta(gvar(Name, T)). /* add definition to database */
 
+/* global function definition
+    Example: gfLet(add, [X, Y], iplus(X, Y), int) -> let add x y = x + y;
+*/
+typeStatement(gfLet(Name, Params, Code), T):-
+    atom(Name), /* make sure we have a bound name */
+    is_list(Params), /* make sure we have a list of parameters */
+    maplist(typeExp, Params, ParamTypes), /* infer types of parameters */
+    typeExp(Code, T), /* infer the type of Code and ensure it is T */
+    bType(T),  /* make sure we have an inferred type */
+    append(ParamTypes, [T], FType), /* type for a function ...args, return type */
+    asserta(gvar(Name, FType)). /* add definition to database */
+
 /* Code is simply a list of statements. The type is 
     the type of the last statement 
 */

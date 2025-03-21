@@ -44,7 +44,30 @@ a more complete coverage of OCAml OR Haskell type inference. Specifically:
 
    f. "for" statements in OCaml OR "where" statements in Haskell
 
-   g. code blocks (sets of statements that can be run together and return the type of the last statement)
+g. code blocks (sets of statements that can be run together and return the type of the last statement)
+
+Example for typeInf.pl:
+
+```prolog
+% Example of a code block
+% This code block contains a sequence of statements and returns the type of the last statement
+
+% Define a global variable
+gvLet(x, int).
+
+% Define a function
+fLet(add, [int, int], int, plus(var(x), var(y))).
+
+% Define a code block
+codeBlock([
+ gvLet(y, int),
+ fLet(multiply, [int, int], int, times(var(x), var(y))),
+ var(z)
+], T).
+
+% The type of the code block is the type of the last statement
+% In this case, the type of 'var(z)' which should be inferred
+```
    
 4. Write tests for all predicates especially infer (at least 20 cases).
 

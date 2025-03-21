@@ -13,11 +13,9 @@ typeExp(Fct, T):-
 
 /* propagate types */
 typeExp(T, T).
-
-
-/*typeExp(return(Expression), T) :-
-    typeExp(Expression, T).
-
+/* typeExp(return(Expression), T) :-
+    typeExp(Expression, T),
+    bType(T)
 */
 
 /* list version to allow function mathine */
@@ -29,7 +27,13 @@ typeExpList([Hin|Tin], [Hout|Tout]):-
 /* TODO: add statements types and their type checking */
 /* global variable definition
     Example:
-        gvLet(v, T, int) ~ let v = 3;
+        1. gvLet(v, T, int) ~ let v = 3;
+        2. if
+        3. for (in OCaml)
+            for variable = start_value to end_value do
+                expression
+            done
+        4. 
  */
 typeStatement(gvLet(Name, T, Code), unit):-
     atom(Name), /* make sure we have a bound name */
@@ -37,9 +41,8 @@ typeStatement(gvLet(Name, T, Code), unit):-
     bType(T), /* make sure we have an infered type */
     asserta(gvar(Name, T)). /* add definition to database */
 
-/* global function definition
-    Example: gfLet(add, [X, Y], iplus(X, Y), int) -> let add x y = x + y;
-*/
+
+% gfLet(add, [X, Y], iplus(X, Y), int) -> let add x y = x + y;
 typeStatement(gfLet(Name, Params, Code), T):-
     atom(Name), /* make sure we have a bound name */
     is_list(Params), /* make sure we have a list of parameters */
@@ -61,8 +64,29 @@ typeStatement(gfLet(Name, Params, Code), T):-
     bType(T),
     append(ParamTypes, [T], FType),
     asserta(gvar(Name, FType)).
-
 */
+
+/* 2. if */
+typeStatement(if(Cond, ThenStmt, ElseStmt), T) :-
+    typeExp(Cond, bool),  % Ensure condition is a boolean
+    typeStatement(ThenStmt, T),  % Infer type of the 'then' branch
+    typeStatement(ElseStmt, T),  % Infer type of the 'else' branch
+    bType(T).  % Ensure we inferred a valid type
+
+
+/* 3. for (in OCaml)
+    for variable = start_value to end_value do
+        expression
+    done 
+*/
+typeStatement(for(Var, Start, End, Body), unit) :-
+    typeExp(Start, int),    % Ensure start_value is an integer
+    typeExp(End, int),      % Ensure end_value is an integer
+    asserta(lvar(Var, int)),  % Declare Var as an integer inside loop
+    writeln(['Loop var added:', Var]),  % Debugging print
+    typeStatement(Body, unit),   % Type check the loop body (must be unit)
+    retract(lvar(Var, int)). % Remove loop variable after processing
+
 
 /* Code is simply a list of statements. The type is 
     the type of the last statement 
@@ -71,6 +95,14 @@ typeCode([S], T):-typeStatement(S, T).
 typeCode([S, S2|Code], T):-
     typeStatement(S,_T),
     typeCode([S2|Code], T).
+
+/* My typeCode
+    1. for loop
+*/
+
+typeCode(print(X), unit):-
+    fType(print, [T, unit]),
+    typeExp(X, T).
 
 /* top level function */
 infer(Code, T) :-

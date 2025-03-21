@@ -136,10 +136,18 @@ test(typeStatement_gfunc, [nondet, true(T == int)]) :-
     assertion(X == int), assertion(Y == int), % Ensure parameters are int
     gvar(add, [int, int, int]). % Check that function is stored correctly
 
+% 4. for i = 1 to 10 do print_int(i) done
+test(typeStatement_for, [nondet]) :-
+    deleteGVars(),  % Ensure a clean state before testing
+    typeStatement(for(I, 1, 10, print(I)), unit), % Use typeStatement/2
+    typeExp(I, int).
+   
 /* End of my test cases for typeStatements():
 1. gvLet(v, T, int) ~ let v = 3; 3 is an int
 2. gvLet(v, T, float) ~ let v = 3.4 is a float
 3. gfLet(add, [X, Y], iplus(X, Y), int) -> let add x y = x + y;
+4. for variable = start_value to end_value do expression done
+    for i = 1 to 10 do print_int(i) done
 
 */
 % same test as above but with infer 

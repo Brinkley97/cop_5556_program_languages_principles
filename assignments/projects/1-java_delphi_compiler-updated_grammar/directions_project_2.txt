@@ -1,0 +1,34 @@
+In this project, you will implement the rest of the Delphi / Turbo Pascal features (see the specific requirements). The main challenge of this project is the fact that you need to capture symbolic information since the main tasks of this project cannot be implemented using an evaluate-as-you-parse strategy.  In essence, you need to either:
+
++ rely on ANTLR's built-in parse tree generator and implement an evaluator over the parse tree to implement all the language features. Using visitors feature in ANTLR is probably the best
++ to implement your own symbolic representation of the code using actions. Instead of evaluating, you build a symbolic structure (a simpler version of the parse tree is probably preferable). The symbolic structure is usually called an Abstract Syntax Tree (AST (Links to an external site.)).
+
+Resources
++ Definition of ASTs (Links to an external site.)
++ AST example (Links to an external site.) in ANTRL4, See also this (Links to an external site.) post
++ Visitors in ANTRL example (Links to an external site.)
+
+Specific requirements
+Part of the language to implement
+For this project, you probably need to re-implement the previous part of the language and to add:
+
++ while-do and for-do loops
++ break and continue keywords
++ user-defined procedures and functions
+
+Implementing scoping
+Please implement static scoping for the language. Specifically:
+
++ Each time a new block opens (while, for statements) a new scope is created.
++ Functions (procedures) create scopes as well. Only global variables are visible in the functions (together with their local scopes).
++ Chain the scopes as they are created and keep track what is visible where
+
+Test cases
++ Write test cases to cover the entire language. You can/should reuse the test cases from Project 1 for the common part. 
+
+What to turn in
++ Turn in all the files needed to run your project. This includes the grammar file, Java sources needed and test cases (.pas extension) and a README file indicating how to run your code. 
+
+Bonuses (10% each)
+1. Implement a simple version of constant propagation. That is if the code contains calculations using constants that can be performed at compile time, perform such computations as you parse the code. For example, the AST for " v = 2*(10+11)" will become "v=42" and "v=v+2*3" becomes "v=v+6". To prove that this is the case, print your AST. Notice that this is not possible (or at least very hard) to do if you use the Antlr parse trees (requires parse tree rewrite which is hard and undocumented). We will implement the more complex version of constant propagation in a subsequent project.
+2. Implement formal parameter passing in procedures/functions. Procedures should be able to declare formal parameters that can be passed when they are called. These variables should be correctly scoped as well.

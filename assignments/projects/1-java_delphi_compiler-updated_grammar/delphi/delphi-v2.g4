@@ -36,11 +36,13 @@ statement: variableAssignment
          | methodCall
          | writelnCall
          | variableDeclaration
-         | whileStatement; // Added whileStatement
+         | whileStatement
+         | forStatement;
 
 variableAssignment: IDENT ':=' expression ';';
 
-assignment: IDENT ':=' expression ';';
+assignment: IDENT ':=' expression ';'
+          | IDENT ':=' expression ;
 
 methodCall: IDENT '.' IDENT ('(' expression? ')')? (';'| NEWLINE);
 
@@ -49,6 +51,8 @@ writelnCall: 'WriteLn' '(' expression ')' ';';
 objectCreation: IDENT '.' IDENT '('? ')'?;
 
 whileStatement: 'whileLoop' '(' expression ')' 'doLoop' 'begin' statement* 'end' ';'; 
+
+forStatement: 'forLoop' assignment 'toLoop' '(' expression ')' 'doLoop' 'begin' statement* 'end' ';'; 
 
 expression: simpleExpression
           | expression relationaloperator expression;

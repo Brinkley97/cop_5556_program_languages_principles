@@ -4,7 +4,7 @@ var
     number: Integer;
 begin
     number := 5; 
-    forLoop i := 1 toLoop (number) doLoop
+    for i := 1 to number do begin
         WriteLn(0);
     end;
 end.

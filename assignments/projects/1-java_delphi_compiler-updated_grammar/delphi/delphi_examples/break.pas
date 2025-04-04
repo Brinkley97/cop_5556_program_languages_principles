@@ -3,9 +3,9 @@ program x (x);
 var
     number: Integer;
 begin
-    number := 0; 
-    whileLoop(number = 0) doLoop begin
+    number := 5; 
+    for i := 1 to number do begin
         WriteLn(0);
-        number := 1;
+        if (i = 2) then break;
     end;
 end.

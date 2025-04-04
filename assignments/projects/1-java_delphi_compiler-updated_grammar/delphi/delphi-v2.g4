@@ -1,77 +1,112 @@
-grammar delphi;
+grammar Delphi;
 
-program: 'program' IDENT '(' IDENT ')' ';' classDeclaration* constructorImplementation* destructorImplementation* methodImplementation* variableDeclaration* 'begin' statement* 'end' '.';
+program: 'program' IDENT '(' IDENT ')' ';' usesClause? varDeclaration? 'begin' statementList 'end' '.';
 
-classDeclaration: 'type' IDENT '=' 'class'
-                  (visibilitySection)*
-                  'end' ';';
+usesClause: 'uses' IDENT (',' IDENT)* ';';
 
-visibilitySection: ('public' | 'private') memberDeclaration*;
-
-memberDeclaration: constructorDeclaration
-                  | destructorDeclaration
-                  | methodDeclaration
-                  | fieldDeclaration;
-
-constructorDeclaration: 'constructor' IDENT ';';
-
-destructorDeclaration: 'destructor' IDENT ';';
-
-constructorImplementation: 'constructor' IDENT '.' IDENT ';' 'begin' statement* 'end' ';';
-
-destructorImplementation: 'destructor' IDENT '.' IDENT ';' 'begin' statement* 'end' ';';
-
-methodDeclaration: 'procedure' IDENT ';';
-
-methodImplementation: 'procedure' IDENT '.' IDENT ';' 'begin' statement* 'end' ';';
-
-fieldDeclaration: IDENT ':' type_ ';';
-
-variableDeclaration: 'var' IDENT ':' type_ ';';
+varDeclaration: 'var' varDecl (varDecl)*;
+varDecl: IDENT (',' IDENT)* ':' type_ ';';
 
 type_: 'Integer' | 'String' | 'Boolean' | IDENT;
 
-statement: variableAssignment
-         | assignment
-         | methodCall
-         | writelnCall
-         | variableDeclaration
-         | whileStatement
-         | forStatement;
-
-variableAssignment: IDENT ':=' expression ';';
-
-assignment: IDENT ':=' expression ';'
-          | IDENT ':=' expression ;
-
-methodCall: IDENT '.' IDENT ('(' expression? ')')? (';'| NEWLINE);
-
-writelnCall: 'WriteLn' '(' expression ')' ';';
-
-objectCreation: IDENT '.' IDENT '('? ')'?;
-
-whileStatement: 'whileLoop' '(' expression ')' 'doLoop' 'begin' statement* 'end' ';'; 
-
-forStatement: 'forLoop' assignment 'toLoop' '(' expression ')' 'doLoop' 'begin' statement* 'end' ';'; 
-
-expression: simpleExpression
-          | expression relationaloperator expression;
-        
-simpleExpression: IDENT 
-                | INTEGER;
-
-relationaloperator
-    : EQUAL
-    | NOT_EQUAL
+statementList: statement*;
+statement
+    : compoundStatement
+    | simpleStatement
     ;
 
-IDENT: [a-zA-Z_][a-zA-Z_0-9]*;
+compoundStatement
+    : 'begin' statementList 'end' ';'
+    ;
+
+simpleStatement
+    : assignmentStatement
+    | methodCall
+    | writelnCall
+    | loopStatement
+    | conditionalStatement
+    | 'break' ';'
+    | 'continue' ';'
+    ;
+
+assignmentStatement: IDENT ':=' expression ';';
+
+methodCall: IDENT '(' argumentList? ')' ';';
+
+writelnCall: 'WriteLn' '(' argumentList? ')' ';';
+
+loopStatement
+    : forStatement
+    | whileStatement
+    | repeatStatement
+    ;
+
+forStatement
+    : 'for' IDENT ':=' expression 'to' expression 'do' statement
+    ;
+
+whileStatement
+    : 'while' '(' expression ')' 'do' statement
+    ;
+
+repeatStatement
+    : 'repeat' statementList 'until' '(' expression ')' ';'
+    ;
+
+conditionalStatement
+    : ifStatement
+    | caseStatement
+    ;
+
+ifStatement
+    : 'if' '(' expression ')' 'then' statement ('else' statement)?
+    ;
+
+caseStatement
+    : 'case' expression 'of' caseElement+ 'end' ';'
+    ;
+caseElement
+    : caseLabelList ':' statement
+    ;
+caseLabelList
+    : caseLabel (',' caseLabel)*
+    ;
+caseLabel
+    : expression ('..' expression)?
+    ;
+
+expression
+    : simpleExpression (relationalOperator simpleExpression)?
+    ;
+
+simpleExpression
+    : IDENT
+    | INTEGER
+    | methodCall // for expressions like functions
+    ;
+
+relationalOperator
+    : '='
+    | '<>'
+    | '<'
+    | '>'
+    | '<='
+    | '>='
+    ;
+
+argumentList: expression (',' expression)*;
+
 INTEGER: [0-9]+;
+IDENT: [a-zA-Z_][a-zA-Z_0-9]*;
+
+STRING: '"' ('""'|~'"')* '"';
+
 COLON: ':';
 SEMI: ';';
+DOT: '.';
+COMMA: ',';
+LPAREN: '(';
+RPAREN: ')';
+
 NEWLINE: '\r'? '\n' -> skip;
 WS: [ \t]+ -> skip;
-EQUAL: '=';
-NOT_EQUAL: '<>';
-WHILE: 'while';
-DO: 'do';

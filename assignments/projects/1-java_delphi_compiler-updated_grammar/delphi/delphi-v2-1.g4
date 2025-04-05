@@ -44,7 +44,7 @@ variableAssignment: IDENT ':=' expression ';';
 assignment: IDENT ':=' expression ';'
           | IDENT ':=' expression ;
 
-methodCall: IDENT '.' IDENT ('(' expression? ')')? (';'| NEWLINE);
+methodCall: IDENT '.' IDENT ('(' expression? ')')? (';'|NEWLINE);
 
 writelnCall: 'WriteLn' '(' expression ')' ';';
 
@@ -58,7 +58,8 @@ expression: simpleExpression
           | expression relationaloperator expression;
         
 simpleExpression: IDENT 
-                | INTEGER;
+                | INTEGER
+                | objectCreation;
 
 relationaloperator
     : EQUAL

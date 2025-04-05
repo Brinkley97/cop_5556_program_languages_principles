@@ -4,7 +4,7 @@ var
     number: Integer;
 begin
     number := 0; 
-    while(number = 0) do begin
+    whileLoop(number = 0) doLoop begin
         WriteLn(0);
         number := 1;
     end;

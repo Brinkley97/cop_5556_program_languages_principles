@@ -1,11 +1,18 @@
 program x (x);
 
-var
-    number: Integer;
-begin
-    number := 0; 
-    while (number = 0) do begin
-        WriteLn(0);
-        number := 1;
+type
+    ClassDeclaration = class
+    public
+        constructor Create;
     end;
+
+constructor ClassDeclaration.Create;
+begin
+    WriteLn(12);
 end;
+
+var
+    classInit: ClassDeclaration;
+begin
+    classInit := ClassDeclaration.Create;
+end.

@@ -61,9 +61,9 @@ writelnCall: 'WriteLn' '(' expression ')' ';';
 
 objectCreation: IDENT '.' IDENT '('? ')'?;
 
-whileStatement: 'whileLoop' '(' expression ')' 'doLoop' 'begin' statement* 'end' ';'; 
+whileStatement: 'while' IDENT '=' INTEGER 'do' 'begin' statement* 'end' ';'; 
 
-forStatement: 'forLoop' assignment 'toLoop' '(' expression ')' 'doLoop' 'begin' statement* 'end' ';';
+forStatement: 'for' assignment 'to' IDENT 'do' 'begin' statement* 'end' ';';
 
 breakStatement: 'break' ';';
 

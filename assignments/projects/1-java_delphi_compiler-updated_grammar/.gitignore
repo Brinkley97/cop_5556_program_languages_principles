@@ -4,6 +4,7 @@
 # ANTLR generated files
 *.class
 *.pyc
+*delphi_2/.class
 
 
 # Python virtual environment (if using ANTLR with Python)
